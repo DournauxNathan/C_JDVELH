@@ -71,7 +71,7 @@ int main()
 
 	/*Selectionner des articles*/
 		void Select() {
-			if((orJoueur >= 0 || orJoueur != 0) && monChoixArticle != 0)
+			while(orJoueur >= 0 || orJoueur != 0 && monChoixArticle != 0)
 			{	
 				printf("Or %d\n", orJoueur);
 				printf("-- -- -- -- -- -- --\n\n");
@@ -93,7 +93,6 @@ int main()
 				if (monChoixArticle == 0)
 				{	
 					printf("Vous quitter le magasin et reprenez votre route\n");
-					deplacement(&chapitre3);
 					chapitreActuelle = 3;
 				}
 
@@ -167,20 +166,34 @@ int main()
 				{
 					printf("Malheuresement vous n'avez plus assez d'or, vous devez donc reprendre la route\n\n");
 				}
+
+				if (chapitreActuelle == 3)
+				{
+					break;
+				}
+
+				if (orJoueur == 0 || orJoueur <= 0 )
+				{
+					break;
+				}	
 			}
 
 			if (orJoueur == 0 || orJoueur <= 0 )
 			{
-				printf("Vous ne disposez plus d'or. Pour continuer votre aventure, allez au chapitre 3\n\n");
+				printf("Vous ne disposez plus d'or. Pour continuer votre aventure, vous devez reprendre la route\n\n");
 				deplacement(&chapitre3);
-				chapitreActuelle = 3;
+			}
+
+			if (chapitreActuelle == 3)
+			{
+				deplacement(&chapitre3);
 			}
 		}
 	
 
 	/*Combat avec l'ennemi*/
 		void Combat() {
-			while(vieEnnemi >= 0 || vie >= 0)
+			while(vieEnnemi >= 0 || vie >= 0 && choixJoueur != 3)
 			{
 				printf("__________________________\n");
 				printf("Tour: %d \n", nTour);
@@ -191,7 +204,7 @@ int main()
 				printf("Bandit: %d \n \n", vieEnnemi);
 
 				//Action du joueur
-				printf("Attaquer [1] ou Se defendre [2]\n \n");
+				printf("Attaquer [1] ou Se defendre [2] ou Fuite [3]\n \n");
 
 				//Action du monstre
 				srand(time(NULL));
@@ -202,18 +215,18 @@ int main()
 				switch (choixJoueur)
 				{
 					case 1 :
-						printf("Vous attaquez le bandit !\n \n");
+						printf("Vous attaquez le bandit !\n\n");
 
 						if (choixMonstre == 2)
 						{
-							printf("Le bandit se defend\n");		
+							printf("Le bandit se defend\n\n");		
 							vieEnnemi -= (degat / 4);
-							printf("Votre n'attaque n'est pas tres efficace...\n");
+							printf("Votre n'attaque n'est pas tres efficace...\n\n");
 						}
 						else
 						{
 							vieEnnemi -= degat;
-							printf("C'est super efficace !\n");
+							printf("C'est super efficace !\n\n");
 						}
 					break;
 				
@@ -230,19 +243,29 @@ int main()
 							printf("Le bandit prepare quelque chose\n\n");
 						}
 					break;
+
+					case 3 :
+						printf("Vous decidez de prendre la fuite.\n");
+						printf("Vous courez pendant un long moment quand soudain ce pour quoi vous etiez parti a l'aventure surgit devant vous.\n");
+						chapitreActuelle = 5;
+					break;
 				}
 
 				nTour = nTour + 1;
 
 				if(vie <= 0)
 				{
-					printf("Vous etes mort\n");
+					printf("Vous etes mort\n\n");
 					break;
 				}
 
 				if(vieEnnemi <= 0)
 				{
-					printf("Vous avez vaincu le bandit !\n");
+					printf("Vous avez vaincu le bandit !\n\n");
+					break;
+				}
+				if (chapitreActuelle == 5)
+				{
 					break;
 				}
 			}	
@@ -256,7 +279,7 @@ int main()
 				printf("			GAME OVER\n");
 				printf("_________________________________________________\n\n");
 
-				return 0;
+				return;
 			}
 			
 			if(vieEnnemi <= 0)
@@ -270,8 +293,6 @@ int main()
 				{
 					case 1 :
 						deplacement(&chapitre5);
-						chapitreActuelle = 5;
-
 					break;
 
 					case 2 :
@@ -281,7 +302,12 @@ int main()
 				}
 			}
 
+			if (chapitreActuelle == 5)
+			{
+				deplacement(&chapitre5);
+			}
 		}
+
 	/*Début de l'aventure textuel*/
 	printf("\n");
 	printf("...............\nReveille du personnages\n..............\n\n");
@@ -340,48 +366,13 @@ int main()
 
 	if(chapitreActuelle == 4)
 	{
-		printf("s\n");
+		printf("Vous arriver devant l'auberge\n");
 	}
 
 	if(chapitreActuelle == 5)
 	{
-		printf("s\n");
+		printf("Le troll est devant vous il vous faut l'abattre car tel est votre destin\n");
 	}
 
 	return 0;
 }
-
-
-
-/*	
-	printf("_________________\n\n");
-	printf("Magasin - Chapitre 2 \n\n");
-	printf("_________________\n\n");
-	/*Choix du menu: Magasin, Inventaire et Quittez
-	printf("BlaBlaBlaBla\n\n");
-	printf("Que vendez-vous ? [1]  Inventaire [2]  Quittez [3] \n\n");
-	printf("-- --\n");
-	printf("Votre choix: "); scanf("%d", &choixJoueur);
-	printf("-- --\n\n");
-
-	switch (choixJoueur) 
-	{
-		case 1 :
-			printf("Marchand: Des babioles, des petites choses...\n\n");
-			printf("_____________________\n\n");
-			printf("Or: %d\n\n", orJoueur);
-
-			//Appel de la fonction Achat
-			//Select();
-		break;
-
-		case 2 :
-			//Inventaire();
-		break;
-
-		case 3 :
-			printf("Marchand: A bientot !\n\n");
-			return 1;
-		break;
-	}
-*/
