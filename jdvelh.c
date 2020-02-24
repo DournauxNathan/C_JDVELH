@@ -22,7 +22,7 @@ int main()
 	int monChoixArticle;
 	int chapitreActuelle;
 
-	int nTour;
+	int nTour = 1;
 	int vie = 30;
 	int vieEnnemi = 50;
 
@@ -180,8 +180,31 @@ int main()
 
 			if (orJoueur == 0 || orJoueur <= 0 )
 			{
-				printf("Vous ne disposez plus d'or. Pour continuer votre aventure, vous devez reprendre la route\n\n");
-				deplacement(&chapitre3);
+				printf("Vous ne disposez plus d'or.\n\n");
+				printf("Si vous voulez continuer votre chemin, allez au chapitre 3 [1]\n");
+				printf("Si vous souhaitez allez a l'auberge, allez au chapitre 4 [2]\n\n");
+					
+				scanf("%d", &choixJoueur); printf("\n\n");
+
+			  	switch (choixJoueur)
+				{
+					case 1 :
+						deplacement(&chapitre3);
+						chapitreActuelle = 3;
+
+					break;
+
+					case 2 :
+					if (orJoueur >= 10)
+					{
+							deplacement(&chapitre4);
+					}
+					else
+					{
+						printf("Vous n'avez pas assez d'or. L'aubergiste n'acceptera jamais que vous puissiez rentre.\n\n");
+					}
+					break;
+				}
 			}
 
 			if (chapitreActuelle == 3)
@@ -189,7 +212,7 @@ int main()
 				deplacement(&chapitre3);
 			}
 		}
-	
+
 	/*Combat avec l'ennemi*/
 		void Combat() {
 			while(vieEnnemi >= 0 || vie >= 0 && choixJoueur != 3)
@@ -209,8 +232,8 @@ int main()
 				srand(time(NULL));
 		    	int choixMonstre = rand()%2+1;    //entre 1-3
 
-				scanf("%d", &choixJoueur);
-				printf("\n");
+				scanf("%d", &choixJoueur); printf("\n");
+
 				switch (choixJoueur)
 				{
 					case 1 :
@@ -261,14 +284,21 @@ int main()
 				if(vieEnnemi <= 0)
 				{
 					printf("Vous avez vaincu le bandit !\n\n");
+					orJoueur += 20;
 					break;
 				}
+
 				if (chapitreActuelle == 5)
 				{
 					break;
 				}
 			}	
-	    	//Fin du jeu
+	    	
+    		if (chapitreActuelle == 5)
+			{
+				deplacement(&chapitre5);
+			}
+
 			if(vie <= 0)
 			{
 				printf("Malheuresement le bandit vous a eu. Pendant que vous vous videz de votre sang il vole tous vos bien\n");
@@ -277,33 +307,27 @@ int main()
 				printf("_________________________________________________\n\n");
 				printf("			GAME OVER\n");
 				printf("_________________________________________________\n\n");
-
-				return;
 			}
 			
 			if(vieEnnemi <= 0)
-			{
-				printf("Si vous souhaitez continuer votre chemin, rendez vous au chapitre 5 [1]\n");
-				printf("Si vous souhaitez reprendre des forces, rendez vous au chapitre 4 [2]\n");;
+			{	
+				printf("Si vous souhaitez reprendre des forces, rendez vous au chapitre 4 [1]\n");
+				printf("Si vous souhaitez continuer votre chemin, rendez vous au chapitre 5 [2]\n\n");
 				
 				scanf("%d", &choixJoueur); printf("\n\n");
 
 				switch (choixJoueur)
 				{
 					case 1 :
-						deplacement(&chapitre5);
+						chapitreActuelle = 4;
+						deplacement(&chapitre4);
 					break;
 
 					case 2 :
-						deplacement(&chapitre4);
-						chapitreActuelle = 4;
+						chapitreActuelle = 5;
+						deplacement(&chapitre5);
 					break;
 				}
-			}
-
-			if (chapitreActuelle == 5)
-			{
-				deplacement(&chapitre5);
 			}
 		}
 
@@ -429,9 +453,17 @@ int main()
 
 	if(chapitreActuelle == 2)
 	{
-		printf("Le marchand vous salue et vous propose les articles suivants :\n\n");
-		Select();
+		if (orJoueur > 0)
+		{
+			printf("Le marchand vous salue et vous propose les articles suivants :\n\n");
+			Select();
+		}
+		else
+		{
+			deplacement(&chapitre5);
+		}
 	}
+	
 
 	if(chapitreActuelle == 3)
 	{
@@ -440,15 +472,19 @@ int main()
 		Combat();
 	}
 
-	if(chapitreActuelle == 4 && orJoueur >= 10)
+	if(chapitreActuelle == 4)
 	{
-		printf("Vous arriver devant l'auberge\n");
-		Auberge();
+		if (orJoueur >= 10)
+		{
+			printf("Vous arriver devant l'auberge\n\n");
+			Auberge();
+		}
+		else
+		{
+			printf("ssss\n");  //deplacement(&chapitre5);
+		}
 	}
-	else
-	{
-		deplacement(&chapitre5);
-	}
+	
 
 	if(chapitreActuelle == 5)
 	{
