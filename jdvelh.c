@@ -190,7 +190,6 @@ int main()
 			}
 		}
 	
-
 	/*Combat avec l'ennemi*/
 		void Combat() {
 			while(vieEnnemi >= 0 || vie >= 0 && choixJoueur != 3)
@@ -285,7 +284,7 @@ int main()
 			if(vieEnnemi <= 0)
 			{
 				printf("Si vous souhaitez continuer votre chemin, rendez vous au chapitre 5 [1]\n");
-				printf("Si vous souhiatez reprendre des forces, rendez vous au chapitre 4 [2]\n");;
+				printf("Si vous souhaitez reprendre des forces, rendez vous au chapitre 4 [2]\n");;
 				
 				scanf("%d", &choixJoueur); printf("\n\n");
 
@@ -308,6 +307,83 @@ int main()
 			}
 		}
 
+	/*Auberge*/
+		void Auberge() { 
+			printf("L'aubergiste vous salue et vous accueille.\n");
+			printf("Il vous propose une biere.\n\n");
+			printf("......................\n");
+			printf("Accepter [1] ou Refusez [2]\n");
+			printf("......................\n\n");
+
+			scanf("%d", &choixJoueur); printf("\n\n");
+
+			switch (choixJoueur)
+			{
+				case 1 :
+					printf("Vous acceptez la biere et vous sentez bien mieux qu'a votre arrive\n\n");
+					orJoueur -= 2;
+					printf("L'aubergiste souris et vous demande pourquoi vous etes venue\n");
+					printf("......................\n");
+					printf("Repos [1] ou Repas [2]\n");
+					printf("......................\n\n");
+
+					scanf("%d", &choixJoueur); printf("\n\n");
+
+					switch (choixJoueur)
+					{
+						case 1 :
+							printf("L'aubergiste vous indique une chambre et vous allez vous reposer...\n");
+							printf("Vous dormez pendant 2 heures vous vous sentez en pleine forme !\n");
+							vie = 30;
+							printf("Il est grand temps de reprendre la route !\n");
+							printf("Vous quitter l'auberge et reprenez votre quete\n\n");
+							deplacement(&chapitre5);
+						break;
+
+						case 2 :
+							printf("L'aubergiste vous donne un repas\n");
+							printf("Ce repas etait un vrai festa vous deborder d'energie !\n");
+							vie = 50;
+							printf("Cependant, il est grand temps de reprendre la route !\n");
+							printf("Vous quitter l'auberge et reprenez votre quete\n\n");
+							deplacement(&chapitre5);
+						break;
+					}
+				break;
+
+				case 2 :
+					printf("L'aubergiste grogne un peu et vous demande pourquoi vous etes venue\n");
+					printf("......................\n");
+					printf("Repos [1] ou Repas [2]\n");
+					printf("......................\n\n");
+
+
+					scanf("%d", &choixJoueur); printf("\n\n");
+
+					switch (choixJoueur)
+					{
+						case 1 :
+							printf("L'aubergiste vous indique une chambre et vous allez vous reposer...\n");
+							printf("Vous dormez pendant 2 heures vous vous sentez en pleine forme !\n");
+							vie = 30;
+							printf("Il est grand temps de reprendre la route !\n");
+							printf("Vous quitter l'auberge et reprenez votre quete\n\n");
+							deplacement(&chapitre5);
+						break;
+
+						case 2 :
+							printf("L'aubergiste vous donne un repas\n");
+							printf("Ce repas etait un vrai festa vous deborder d'energie !\n");
+							vie = 50;
+							printf("Cependant, il est grand temps de reprendre la route !\n");
+							printf("Vous quitter l'auberge et reprenez votre quete\n\n");
+							deplacement(&chapitre5);
+						break;
+					}
+				break;
+			}
+		}
+	
 	/*Début de l'aventure textuel*/
 	printf("\n");
 	printf("...............\nReveille du personnages\n..............\n\n");
@@ -321,7 +397,7 @@ int main()
 
 	
 
-	printf("Blabl a homme - choix de dialgoue\n");
+	printf("Blabla homme - choix de dialgoue\n");
 
 	printf("......................\n");
 	printf("Si vous souhaitez vous rendre chez le marchand, allez au chapitre 2 [1]\n");
@@ -364,9 +440,14 @@ int main()
 		Combat();
 	}
 
-	if(chapitreActuelle == 4)
+	if(chapitreActuelle == 4 && orJoueur >= 10)
 	{
 		printf("Vous arriver devant l'auberge\n");
+		Auberge();
+	}
+	else
+	{
+		deplacement(&chapitre5);
 	}
 
 	if(chapitreActuelle == 5)
