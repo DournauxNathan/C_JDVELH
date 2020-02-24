@@ -23,11 +23,10 @@ int main()
 	int chapitreActuelle;
 
 	int nTour = 1;
-	int vie = 30;
-	int vieEnnemi = 50;
+	int vie;
+	int vieEnnemi;
 
 	int degat;
-	degat = 5;
 
 	/*Systeme_Changement de chapitre*/
 		chap chapitre2 = {"_________________\n\nCHAPITRE 2 - Le MAGASIN\n_________________\n"};
@@ -331,6 +330,118 @@ int main()
 			}
 		}
 
+		void Combat2() {
+			printf("Le troll est devant vous il vous faut l'abattre car tel est votre destin\n");
+			while(vieEnnemi >= 0 || vie >= 0 && choixJoueur != 3)
+			{
+				printf("__________________________\n");
+				printf("Tour: %d \n", nTour);
+		        printf("__________________________\n \n");
+		        
+				printf("PV: %d \n", vie);
+
+				printf("Troll: %d \n \n", vieEnnemi);
+
+				//Action du joueur
+				printf("Attaquer [1] ou Se defendre [2] ou Fuite [3]\n \n");
+
+				//Action du monstre
+				srand(time(NULL));
+		    	int choixMonstre = rand()%2+1;    //entre 1-3
+
+				scanf("%d", &choixJoueur); printf("\n");
+
+				switch (choixJoueur)
+				{
+					case 1 :
+						printf("Vous attaquez le troll !\n\n");
+
+						if (choixMonstre == 2)
+						{
+							printf("Le troll se defend\n\n");		
+							vieEnnemi -= (degat / 4);
+							printf("Votre n'attaque n'est pas tres efficace...\n\n");
+						}
+						else
+						{
+							vieEnnemi -= degat;
+							printf("C'est super efficace !\n\n");
+						}
+					break;
+				
+					case 2 :
+						if (choixMonstre == 1)
+						{
+							printf("Le troll vous attaque !  \n\n");
+							printf("Vous vous defendez ! \n\n");
+							vie = vie - (degat / 4);
+							printf("Vous venez de perdre %d points de vie \n\n", degat);
+						}
+						else
+						{
+							printf("Le troll prepare quelque chose\n\n");
+						}
+					break;
+
+					case 3 :
+						printf("Vous decidez de prendre la fuite.\n");
+						printf("Vous courez pendant un long moment. Vous etes essoufle mais est ce que cela en valait la peine\n");
+						chapitreActuelle = 6;
+					break;
+				}
+
+				nTour = nTour + 1;
+
+				if(vie <= 0)
+				{
+					printf("Vous etes mort\n\n");
+					break;
+				}
+
+				if(vieEnnemi <= 0)
+				{
+					printf("Vous avez vaincu le troll !\n\n");
+					orJoueur += 20;
+					break;
+				}
+
+				if (chapitreActuelle == 6)
+				{
+					break;
+				}
+			}	
+	    	
+    		if (chapitreActuelle == 6)
+			{
+				printf("Ainsi, votre quete n'as pas pu etre accomplie...\n");
+				printf("Toute la contree vous considere comme un lache\n\n");
+
+				printf("_________________________________________________\n\n");
+				printf("			  Fin\n");
+				printf("_________________________________________________\n\n");
+			}
+
+			if(vie <= 0)
+			{
+				printf("Malheuresement le troll vous a eu. Alors que vous sombrer de plus en plus dans l'inconscience\n");
+				printf("Le troll s'empare et vous traine jusqu'au dans son antre. Il finira par se repaitre de vos entraille\n");
+				printf("La quete qui vous a ete confie n'a pas pus etre remplis et la bete terrorise toute la contree\n\n");
+
+				printf("_________________________________________________\n\n");
+				printf("			  Fin\n");
+				printf("_________________________________________________\n\n");
+			}
+			
+			if(vieEnnemi <= 0)
+			{	
+				printf("Vous avez terrasse la contree du terrible danger.\n");
+				printf("Vous etes aclamme par les villageois et vous devenu le heros du royaume\n\n");
+				
+				printf("_________________________________________________\n\n");
+				printf("			  Fin\n");
+				printf("_________________________________________________\n\n");
+			}
+		}
 	/*Auberge*/
 		void Auberge() { 
 			printf("L'aubergiste vous salue et vous accueille.\n");
@@ -393,6 +504,7 @@ int main()
 							printf("Il est grand temps de reprendre la route !\n");
 							printf("Vous quitter l'auberge et reprenez votre quete\n\n");
 							deplacement(&chapitre5);
+							chapitreActuelle =5;
 						break;
 
 						case 2 :
@@ -402,6 +514,7 @@ int main()
 							printf("Cependant, il est grand temps de reprendre la route !\n");
 							printf("Vous quitter l'auberge et reprenez votre quete\n\n");
 							deplacement(&chapitre5);
+							chapitreActuelle = 5;
 						break;
 					}
 				break;
@@ -461,6 +574,7 @@ int main()
 		else
 		{
 			deplacement(&chapitre5);
+			chapitreActuelle = 5;
 		}
 	}
 	
@@ -469,7 +583,7 @@ int main()
 	{
 		printf("Vous marchez tranquillement le long du chemin lorsque vous vous entendez des bruits au alentours...\n");
 		printf("Soudain deux bandits sortent des buissons et saute sur vous...\n");
-		Combat();
+		Combat(vie = 30, vieEnnemi = 50, degat = 5);	
 	}
 
 	if(chapitreActuelle == 4)
@@ -480,15 +594,17 @@ int main()
 			Auberge();
 		}
 		else
-		{
-			printf("ssss\n");  //deplacement(&chapitre5);
+		{	
+			deplacement(&chapitre5);
+			chapitreActuelle = 5;
 		}
 	}
 	
 
 	if(chapitreActuelle == 5)
 	{
-		printf("Le troll est devant vous il vous faut l'abattre car tel est votre destin\n");
+		printf("Vous continue sur le chemin quand soudain un ombre gigantesque se dresse devant vous.\n");
+		Combat2(vie = 50, vieEnnemi = 80,degat = 10);
 	}
 
 	return 0;
