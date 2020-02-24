@@ -45,7 +45,7 @@ int main()
 		int nEpee = 0;
 		int nBouclier = 0;
 
-		/*Liste des articles proposés dans le magasin*/
+		/*Liste des articles proposes dans le magasin*/
 			//Consommable
 			objet pomme = {"Pomme",3};
 			objet eau =  {"Eau",1};
@@ -82,7 +82,7 @@ int main()
 				printf("%s | Prix: %d | [6]\n\n", bouclier.nomObjet, bouclier.prixObjet);
 				printf("-- -- -- -- -- -- --\n\n");
 
-				//Choix: Selectionner un article ou revenir au menu précédent
+				//Choix: Selectionner un article ou revenir au menu precedent
 				printf("Si l'un des articles vous interresse entre son numero\n\n");
 				printf("Si aucun des ces articles ne vous interresse, rendez vous au chapitre 3 [0]\n\n");
 				printf("-- --\n");
@@ -201,6 +201,10 @@ int main()
 					else
 					{
 						printf("Vous n'avez pas assez d'or. L'aubergiste n'acceptera jamais que vous puissiez rentre.\n\n");
+						printf("Il vous faut donc continuer votre chemin\n");
+
+						chapitreActuelle = 3;
+
 					}
 					break;
 				}
@@ -473,15 +477,17 @@ int main()
 							printf("Il est grand temps de reprendre la route !\n");
 							printf("Vous quitter l'auberge et reprenez votre quete\n\n");
 							deplacement(&chapitre5);
+							chapitreActuelle = 5;
 						break;
 
 						case 2 :
 							printf("L'aubergiste vous donne un repas\n");
-							printf("Ce repas etait un vrai festa vous deborder d'energie !\n");
+							printf("Ce repas etait un vrai festin vous deborder d'energie !\n");
 							vie = 50;
 							printf("Cependant, il est grand temps de reprendre la route !\n");
 							printf("Vous quitter l'auberge et reprenez votre quete\n\n");
 							deplacement(&chapitre5);
+							chapitreActuelle = 5;
 						break;
 					}
 				break;
@@ -509,7 +515,7 @@ int main()
 
 						case 2 :
 							printf("L'aubergiste vous donne un repas\n");
-							printf("Ce repas etait un vrai festa vous deborder d'energie !\n");
+							printf("Ce repas etait un vrai festin vous deborder d'energie !\n");
 							vie = 50;
 							printf("Cependant, il est grand temps de reprendre la route !\n");
 							printf("Vous quitter l'auberge et reprenez votre quete\n\n");
@@ -521,20 +527,18 @@ int main()
 			}
 		}
 	
-	/*Début de l'aventure textuel*/
+	/*Debut de l'aventure textuel*/
 	printf("\n");
-	printf("...............\nReveille du personnages\n..............\n\n");
+	printf("Vous vous eveillez a l'aube.\nApres vous etre habille, vous prenez un petit dejeuner compose de pain et de lait de chevre,\npuis vous ramassez vos affaires.\n\n");
 
-	printf("...............\nBlabla quetes\n..............\n\n");
-
-	printf("...............\nDebut de l'aventure\n........\n\n");
+	printf("Mais aujourd'hui est un grand jour !\nVous allez enfin accomplir une quete pour devenir heros du royaume.\nIl est grand temps d'aller terraser la bete qui rode dans la contree...\n\n");
 
 	/*CHAPITRE 1*/
 	printf("_________________\n\nCHAPITRE 1 - DEBUT DE L'AVENTURE\n_________________\n\n");
 
 	
 
-	printf("Blabla homme - choix de dialgoue\n");
+	printf("Apres avoir quittez votre village, vous faite face a un carrefour et un panneau.\nDevant vous continue le chemin que vous avez emprunte.\nA gauche, se trouve le  marchand et a droite, l'auberge tenue par un vieux monsieur.\n\n");
 
 	printf("......................\n");
 	printf("Si vous souhaitez vous rendre chez le marchand, allez au chapitre 2 [1]\n");
@@ -582,7 +586,7 @@ int main()
 	if(chapitreActuelle == 3)
 	{
 		printf("Vous marchez tranquillement le long du chemin lorsque vous vous entendez des bruits au alentours...\n");
-		printf("Soudain deux bandits sortent des buissons et saute sur vous...\n");
+		printf("Soudain un bandit sort des buissons et saute sur vous...\n");
 		Combat(vie = 30, vieEnnemi = 50, degat = 5);	
 	}
 
