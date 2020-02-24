@@ -17,7 +17,15 @@ typedef struct Chapitre chap;
 int main()
 {
 	int choixJoueur; 
+	int monChoixArticle;
 	int chapitreActuelle;
+
+	/*Systeme_Changement de chapitre*/
+		chap chapitre2 = {"_________________\n\nCHAPITRE 2 - Le MAGASIN\n_________________\n"};
+		chap chapitre3 = {"_________________\n\nCHAPITRE 3 - LE PIEGE\n_________________\n"};
+		chap chapitre4 = {"_________________\n\nCHAPITRE 4 - L'AUBERGE\n_________________\n"};
+		chap chapitre5 = {"_________________\n\nCHAPITRE 5 - LE TROLL\n_________________\n"};
+
 	/*Systeme_Inventaire & Shop*/
 		int orJoueur = 50;
 
@@ -31,8 +39,8 @@ int main()
 
 		/*Liste des articles proposés dans le magasin*/
 			//Consommable
-			objet pomme = {"Pomme",5};
-			objet eau =  {"Eau",2};
+			objet pomme = {"Pomme",3};
+			objet eau =  {"Eau",1};
 			objet potionRouge = {"Potion rouge",5};
 			objet potionVerte = {"Potion vert",10};
 			//Armes
@@ -40,24 +48,126 @@ int main()
 			//Armures
 			objet bouclier = {"Bouclier en bois", 25};
 
-		/*Pointeur redirigant vers le nom de l'objet*/
+	/*Pointeur redirigeant vers le nom de l'objet*/
 		void Achat(objet * monObjet)
 		{
 			orJoueur = orJoueur - (*monObjet).prixObjet;
 		}
 
-	/*Systeme_Changement de chapitre*/
-	chap chapitre2 = {"_________________\n\nCHAPITRE 2 - Le MAGASIN\n_________________\n\n"};
-	chap chapitre3 = {"_________________\n\nCHAPITRE 3 - LE PIEGE\n_________________\n\n"};
-	chap chapitre4 = {"_________________\n\nCHAPITRE 4 - L'AUBERGE\n_________________\n\n"};
-	chap chapitre5 = {"_________________\n\nCHAPITRE 5 - LE TROLL\n_________________\n\n"};
+	/*Pointeur redirigeant vers le chapitre choisie par le joueur*/
+		void deplacement(chap * leChapitre)
+		{
+			printf("%s\n\n", (*leChapitre).description);
+		}
 
-	void deplacement(chap * leChapitre)
-	{
-		printf("%s\n\n", (*leChapitre).description);
+	/*Selectionner des articles*/
+		void Select() {
+			if((orJoueur >= 0 || orJoueur != 0) && monChoixArticle != 0)
+			{	
+				printf("Or %d\n", orJoueur);
+				printf("-- -- -- -- -- -- --\n\n");
+				printf("%s | Prix: %d | [1]\n\n", pomme.nomObjet, pomme.prixObjet);
+				printf("%s | Prix: %d | [2]\n\n", eau.nomObjet, eau.prixObjet);
+				printf("%s     | Prix: %d | [3]\n\n", potionRouge.nomObjet, potionRouge.prixObjet);
+				printf("%s      | Prix: %d | [4]\n\n", potionVerte.nomObjet, potionVerte.prixObjet);
+				printf("%s     | Prix: %d | [5]\n\n", epee.nomObjet, epee.prixObjet);
+				printf("%s | Prix: %d | [6]\n\n", bouclier.nomObjet, bouclier.prixObjet);
+				printf("-- -- -- -- -- -- --\n\n");
+
+				//Choix: Selectionner un article ou revenir au menu précédent
+				printf("Si l'un des articles vous interresse entre son numero\n\n");
+				printf("Si aucun des ces articles ne vous interresse, rendez vous au chapitre 3 [0]\n\n");
+				printf("-- --\n");
+				printf("Votre choix: "); scanf("%d", &monChoixArticle);
+				printf("-- --\n\n");
+
+				if (monChoixArticle == 0)
+				{	
+					printf("Vous quitter le magasin et reprenez votre route\n");
+					deplacement(&chapitre3);
+					chapitreActuelle = 3;
+				}
+
+				if (monChoixArticle == 1 && orJoueur >= 3)
+				{
+					Achat(&pomme);
+					printf("Vous achetez une %s\n\n"),pomme.nomObjet;
+					nPomme++;
+				}
+				else if (monChoixArticle == 1 && orJoueur < 3) 
+				{
+					printf("Malheuresement vous n'avez plus assez d'or\n\n");
+				}
+
+				//Eau
+				if (monChoixArticle == 2 && orJoueur >= 1)
+				{
+					Achat(&eau);
+					printf("Vous achetez l'%s\n\n",eau.nomObjet);
+					nEau++;
+				}
+				else if (monChoixArticle == 2 && orJoueur < 1) 
+				{
+					printf("Malheuresement vous n'avez plus assez d'or\n\n");
+				}
+
+				//Potion rouge
+				if (monChoixArticle == 3 && orJoueur >= 5)
+				{
+					Achat(&potionRouge);
+					printf("Vous achetez la %s\n\n",potionRouge.nomObjet);
+					nPotionRouge++;
+				}
+				else if (monChoixArticle == 3 && orJoueur < 5) 
+				{
+					printf("Malheuresement vous n'avez plus assez d'or\n\n");
+				}
+
+				//Potion verte
+				if (monChoixArticle == 4 && orJoueur >= 10)
+				{
+					Achat(&potionVerte);
+					printf("Vous achetez la %s\n\n",potionVerte.nomObjet);
+					nPotionVerte++;
+				}
+				else if (monChoixArticle == 4 && orJoueur < 10) 
+				{
+					printf("Malheuresement vous n'avez plus assez d'or\n\n");
+				}
+
+				//Epee en bois
+				if (monChoixArticle == 5 && orJoueur >= 15)
+				{
+					Achat(&epee);
+					printf("Vous achetez l'%s\n\n",epee.nomObjet);
+					nEpee++;
+				}
+				else if (monChoixArticle == 5 && orJoueur < 15) 
+				{
+					printf("Malheuresement vous n'avez plus assez d'or\n\n");
+				}
+
+				//Bouclier en bois
+				if (monChoixArticle == 6 && orJoueur >= 25)
+				{
+					Achat(&bouclier);
+					printf("Vous achetez un %s\n\n",bouclier.nomObjet);
+					nBouclier++;
+				}
+				else if (monChoixArticle == 6 && orJoueur < 25) 
+				{
+					printf("Malheuresement vous n'avez plus assez d'or, vous devez donc reprendre la route\n\n");
+				}
+			}
+
+			if (orJoueur == 0 || orJoueur <= 0 )
+			{
+				printf("Vous ne disposez plus d'or. Pour continuer votre aventure, allez au chapitre 3\n\n");
+				deplacement(&chapitre3);
+				chapitreActuelle = 3;
+			}
+		}
 		
-	}
-
 	/*Début de l'aventure textuel*/
 	printf("\n");
 	printf("...............\nReveille du personnages\n..............\n\n");
@@ -66,10 +176,8 @@ int main()
 
 	printf("...............\nDebut de l'aventure\n........\n\n");
 
-
-	printf("_________________\n\n");
-	printf ("CHAPITRE 1 - DEBUT DE L'AVENTURE\n"); 
-	printf("_________________\n\n");
+	/*CHAPITRE 1*/
+	printf("_________________\n\nCHAPITRE 1 - DEBUT DE L'AVENTURE\n_________________\n\n");
 
 	printf("Blabl a homme - choix de dialgoue\n");
 
@@ -81,7 +189,6 @@ int main()
 
 	scanf("%d", &choixJoueur); printf("\n\n");
 
-	/*Choix des chapitre*/
 	switch (choixJoueur)
 	{
 		case 1 :
@@ -92,14 +199,26 @@ int main()
 
 		case 2 :
 			deplacement(&chapitre3);
-				chapitreActuelle = 3;
+			chapitreActuelle = 3;
 		break;
 
 		case 3 :
 			deplacement(&chapitre4);
 			chapitreActuelle = 4;
 		break;
+	}
 
+
+	if(chapitreActuelle == 2)
+	{
+		printf("Le marchand vous salue et vous propose les articles suivants :\n\n");
+		Select();
+	}
+
+	if(chapitreActuelle == 3)
+	{
+		printf("Vous marchez tranquillement le long du chemin lorsque vous vous entendez des bruits au alentours...\n");
+		printf("Soudain deux bandits sortent des buissons et saute sur vous...\n");
 	}
 
 	return 0;
