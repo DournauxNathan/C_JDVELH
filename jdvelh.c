@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <time.h> //Ne pas oublier d'inclure le fichier time.h
 
 /*Structure des articles du magasin referencant leur nom et leurs prix*/
 struct Objet{
@@ -17,8 +18,16 @@ typedef struct Chapitre chap;
 int main()
 {
 	int choixJoueur; 
+	
 	int monChoixArticle;
 	int chapitreActuelle;
+
+	int nTour;
+	int vie = 30;
+	int vieEnnemi = 50;
+
+	int degat;
+	degat = 5;
 
 	/*Systeme_Changement de chapitre*/
 		chap chapitre2 = {"_________________\n\nCHAPITRE 2 - Le MAGASIN\n_________________\n"};
@@ -167,7 +176,112 @@ int main()
 				chapitreActuelle = 3;
 			}
 		}
-		
+	
+
+	/*Combat avec l'ennemi*/
+		void Combat() {
+			while(vieEnnemi >= 0 || vie >= 0)
+			{
+				printf("__________________________\n");
+				printf("Tour: %d \n", nTour);
+		        printf("__________________________\n \n");
+		        
+				printf("PV: %d \n", vie);
+
+				printf("Bandit: %d \n \n", vieEnnemi);
+
+				//Action du joueur
+				printf("Attaquer [1] ou Se defendre [2]\n \n");
+
+				//Action du monstre
+				srand(time(NULL));
+		    	int choixMonstre = rand()%2+1;    //entre 1-3
+
+				scanf("%d", &choixJoueur);
+				printf("\n");
+				switch (choixJoueur)
+				{
+					case 1 :
+						printf("Vous attaquez le bandit !\n \n");
+
+						if (choixMonstre == 2)
+						{
+							printf("Le bandit se defend\n");		
+							vieEnnemi -= (degat / 4);
+							printf("Votre n'attaque n'est pas tres efficace...\n");
+						}
+						else
+						{
+							vieEnnemi -= degat;
+							printf("C'est super efficace !\n");
+						}
+					break;
+				
+					case 2 :
+						if (choixMonstre == 1)
+						{
+							printf("Le bandit vous attaque !  \n\n");
+							printf("Vous vous defendez ! \n\n");
+							vie = vie - (degat / 4);
+							printf("Vous venez de perdre %d points de vie \n\n", degat);
+						}
+						else
+						{
+							printf("Le bandit prepare quelque chose\n\n");
+						}
+					break;
+				}
+
+				nTour = nTour + 1;
+
+				if(vie <= 0)
+				{
+					printf("Vous etes mort\n");
+					break;
+				}
+
+				if(vieEnnemi <= 0)
+				{
+					printf("Vous avez vaincu le bandit !\n");
+					break;
+				}
+			}	
+	    	//Fin du jeu
+			if(vie <= 0)
+			{
+				printf("Malheuresement le bandit vous a eu. Pendant que vous vous videz de votre sang il vole tous vos bien\n");
+				printf("La quete qui vous a ete confie n'a pas pus etre remplis et la bete terrorise toute la contree\n\n");
+
+				printf("_________________________________________________\n\n");
+				printf("			GAME OVER\n");
+				printf("_________________________________________________\n\n");
+
+				return 0;
+			}
+			
+			if(vieEnnemi <= 0)
+			{
+				printf("Si vous souhaitez continuer votre chemin, rendez vous au chapitre 5 [1]\n");
+				printf("Si vous souhiatez reprendre des forces, rendez vous au chapitre 4 [2]\n");;
+				
+				scanf("%d", &choixJoueur); printf("\n\n");
+
+				switch (choixJoueur)
+				{
+					case 1 :
+						deplacement(&chapitre5);
+						chapitreActuelle = 5;
+
+					break;
+
+					case 2 :
+						deplacement(&chapitre4);
+						chapitreActuelle = 4;
+					break;
+				}
+			}
+
+		}
 	/*Début de l'aventure textuel*/
 	printf("\n");
 	printf("...............\nReveille du personnages\n..............\n\n");
@@ -179,10 +293,12 @@ int main()
 	/*CHAPITRE 1*/
 	printf("_________________\n\nCHAPITRE 1 - DEBUT DE L'AVENTURE\n_________________\n\n");
 
+	
+
 	printf("Blabl a homme - choix de dialgoue\n");
 
 	printf("......................\n");
-	printf("Si vous souhaitez vous rendre cher le marchand, allez au chapitre 2 [1]\n");
+	printf("Si vous souhaitez vous rendre chez le marchand, allez au chapitre 2 [1]\n");
 	printf("Si vous voulez continuer votre chemin, allez au chapitre 3 [2]\n");
 	printf("Si vous souhaitez allez a l'auberge, allez au chapitre 4 [3]\n");
 	printf("......................\n\n");
@@ -219,6 +335,17 @@ int main()
 	{
 		printf("Vous marchez tranquillement le long du chemin lorsque vous vous entendez des bruits au alentours...\n");
 		printf("Soudain deux bandits sortent des buissons et saute sur vous...\n");
+		Combat();
+	}
+
+	if(chapitreActuelle == 4)
+	{
+		printf("s\n");
+	}
+
+	if(chapitreActuelle == 5)
+	{
+		printf("s\n");
 	}
 
 	return 0;
